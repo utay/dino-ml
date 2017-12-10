@@ -15,6 +15,7 @@ class Generation:
         for genome in self.genomes:
             scanner.reset()
             k.press_keys(['Command', 'r'])
+            k.release_key('Command')
             sleep(1)
             k.press_key(k.space)
             while True:
