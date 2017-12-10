@@ -12,16 +12,14 @@ def screenshot(x, y, w, h):
 def is_dino_color(pixel):
     return pixel == dino_color
 
-class Obstacle:
-    def __init__(self, distance, length, speed):
-        self.distance = distance
-        self.length = length
-        self.speed = speed
+def obstacle(distance, length, speed, time):
+    return { 'distance': distance, 'length': length, 'speed': speed, 'time': time }
 
 class Scanner:
     def __init__(self):
         self.dino_start = (0, 0)
         self.dino_end = (0, 0)
+        self.last_obstacle = {}
 
     def find_game(self):
         image = screenshot(0, 0, 1500, 1500)
@@ -50,16 +48,18 @@ class Scanner:
         self.dino_end = end
 
     def find_next_obstacle(self):
-        dist0, t0 = self.__next_obstacle()
-        dist1, t1 = self.__next_obstacle()
-        dist = dist0 - dist1
-        speed = dist / ((t1 - t0).microseconds * 1000)
-        return Obstacle(dist1, 0, speed) if dist > 0 else None
-
-    def __next_obstacle(self):
         image = screenshot(200, 100, 500, 155)
         dist = self.__next_obstacle_dist(image)
-        return dist, datetime.now()
+        time = datetime.now()
+        delta_dist = 0
+        speed = 0
+        if self.last_obstacle:
+            if dist == 0 and self.last_obstacle['distance'] != 0:
+                raise Exception('Game over!')
+            delta_dist = self.last_obstacle['distance'] - dist
+            speed = delta_dist / ((time - self.last_obstacle['time']).microseconds * 1000)
+        self.last_obstacle = obstacle(dist, 1, speed, time)
+        return self.last_obstacle if delta_dist > 0 else None
 
     def __next_obstacle_dist(self, image):
         for x in range(0, 1000, 5):
@@ -68,3 +68,6 @@ class Scanner:
                 if is_dino_color(color):
                     return x
         return 0
+
+    def reset(self):
+        self.last_obstacle = {}

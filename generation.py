@@ -1,21 +1,29 @@
 from scanner import Scanner
-import network
+from network import Network
+import numpy as np
 import pykeyboard
 
 class Generation:
     def __init__(self):
         self.genomes = [Network() for i in range(12)]
 
-    def execute():
+    def execute(self):
         k = pykeyboard.PyKeyboard()
+        scanner = Scanner()
+        scanner.find_game()
         for genome in self.genomes:
-            scanner = Scanner()
-            scanner.find_game()
+            scanner.reset()
+            k.press_keys(['Command', 'r'])
+            k.press_key(k.space)
             while True:
-                obstacle = scanner.find_next_obstacle()
-                if obstacle:
-                    output = genome.forward(np.array(obstacle, dtype=float))
-                    if output > 0.55:
-                        k.press_key(k.space)
+                try:
+                    obs = scanner.find_next_obstacle()
+                    if obs:
+                        inputs = [obs['distance'], obs['length'], obs['speed']]
+                        outputs = genome.forward(np.array(inputs, dtype=float))
+                        if outputs[0] > 0.55:
+                            k.press_key(k.space)
+                except:
+                    break
             # Set genome.fitness
             # Reload game

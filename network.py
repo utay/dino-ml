@@ -11,7 +11,7 @@ class Network:
 
     def forward(self, inputs):
         inputs = inputs / np.amax(inputs, axis=0)
-        self.z2 = np.dot(self.z2, self.W1)
+        self.z2 = np.dot(inputs, self.W1)
         self.a2 = self.sigmoid(self.z2)
         self.z3 = np.dot(self.a2, self.W2)
         yHat = self.sigmoid(self.z3)
