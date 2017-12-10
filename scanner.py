@@ -1,5 +1,5 @@
 from PIL import Image
-import pykeyboard
+from datetime import datetime
 import os
 
 dino_color = (83, 83, 83, 255)
@@ -11,6 +11,12 @@ def screenshot(x, y, w, h):
 
 def is_dino_color(pixel):
     return pixel == dino_color
+
+class Obstacle:
+    def __init__(self, distance, length, speed):
+        self.distance = distance
+        self.length = length
+        self.speed = speed
 
 class Scanner:
     def __init__(self):
@@ -43,23 +49,22 @@ class Scanner:
         self.dino_start = start
         self.dino_end = end
 
-    def find_next_obstacle(self, image):
+    def find_next_obstacle(self):
+        dist0, t0 = self.__next_obstacle()
+        dist1, t1 = self.__next_obstacle()
+        dist = dist0 - dist1
+        speed = dist / ((t1 - t0).microseconds * 1000)
+        return Obstacle(dist, 0, speed) if dist > 0 else None
+
+    def __next_obstacle(self):
+        image = screenshot(200, 100, 500, 155)
+        dist = self.__next_obstacle_dist(image)
+        return dist, datetime.now()
+
+    def __next_obstacle_dist(self, image):
         for x in range(0, 1000, 5):
             for y in range(0, 310, 5):
                 color = image.getpixel((x, y))
                 if is_dino_color(color):
-                    print(x, y)
                     return x
         return 0
-
-scanner = Scanner()
-scanner.find_game()
-k = pykeyboard.PyKeyboard()
-print(scanner.dino_end)
-while True:
-    x = scanner.dino_end[0]
-    y = scanner.dino_end[1]
-    image = screenshot(200, 100, 500, 155)
-    x = scanner.find_next_obstacle(image)
-    if x > 0 and x < 80:
-        k.press_key(k.space)
