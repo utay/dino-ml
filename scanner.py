@@ -20,6 +20,8 @@ class Scanner:
         self.dino_start = (0, 0)
         self.dino_end = (0, 0)
         self.last_obstacle = {}
+        self.__current_fitness = 0
+        self.__has_set_fitness = False
 
     def find_game(self):
         image = screenshot(0, 0, 1500, 1500)
@@ -50,6 +52,11 @@ class Scanner:
     def find_next_obstacle(self):
         image = screenshot(200, 100, 500, 155)
         dist = self.__next_obstacle_dist(image)
+        if dist < 100 and dist > 0 and not self.has_set_fitness:
+            self.__current_fitness += 1
+            self.__has_set_fitness = True
+        else:
+            self.__has_set_fitness = False
         time = datetime.now()
         delta_dist = 0
         speed = 0
@@ -71,3 +78,8 @@ class Scanner:
 
     def reset(self):
         self.last_obstacle = {}
+        self.__current_fitness = 0
+        self.__has_set_fitness = False
+
+    def get_fitness(self):
+        return self.__current_fitness

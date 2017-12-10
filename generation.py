@@ -1,5 +1,6 @@
 from scanner import Scanner
 from network import Network
+from time import sleep
 import numpy as np
 import pykeyboard
 
@@ -14,7 +15,8 @@ class Generation:
         for genome in self.genomes:
             scanner.reset()
             k.press_keys(['Command', 'r'])
-            k.press_key(k.space)
+            sleep(1)
+            # k.press_key(k.space)
             while True:
                 try:
                     obs = scanner.find_next_obstacle()
@@ -25,5 +27,4 @@ class Generation:
                             k.press_key(k.space)
                 except:
                     break
-            # Set genome.fitness
-            # Reload game
+            genome.fitness = scanner.get_fitness()
