@@ -52,7 +52,7 @@ class Scanner:
     def find_next_obstacle(self):
         image = screenshot(200, 100, 500, 155)
         dist = self.__next_obstacle_dist(image)
-        if dist < 100 and dist > 0 and not self.has_set_fitness:
+        if dist < 100 and dist > 0 and not self.__has_set_fitness:
             self.__current_fitness += 1
             self.__has_set_fitness = True
         else:
@@ -61,20 +61,27 @@ class Scanner:
         delta_dist = 0
         speed = 0
         if self.last_obstacle:
-            if dist == 0 and self.last_obstacle['distance'] != 0:
-                raise Exception('Game over!')
             delta_dist = self.last_obstacle['distance'] - dist
             speed = delta_dist / ((time - self.last_obstacle['time']).microseconds * 1000)
         self.last_obstacle = obstacle(dist, 1, speed, time)
-        return self.last_obstacle if delta_dist > 0 else None
+        return self.last_obstacle
 
     def __next_obstacle_dist(self, image):
+        s = 0
+        for y in range(0, 250, 5):
+            for x in range(0, 1000, 5):
+                color = image.getpixel((x, y))
+                if is_dino_color(color):
+                    s += 1
+        if s > 150:
+            raise Exception('Game over!')
+
         for x in range(0, 1000, 5):
             for y in range(0, 310, 5):
                 color = image.getpixel((x, y))
                 if is_dino_color(color):
                     return x
-        return 0
+        return 1000000
 
     def reset(self):
         self.last_obstacle = {}

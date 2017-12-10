@@ -16,15 +16,15 @@ class Generation:
             scanner.reset()
             k.press_keys(['Command', 'r'])
             sleep(1)
-            # k.press_key(k.space)
+            k.press_key(k.space)
             while True:
                 try:
                     obs = scanner.find_next_obstacle()
-                    if obs:
-                        inputs = [obs['distance'], obs['length'], obs['speed']]
-                        outputs = genome.forward(np.array(inputs, dtype=float))
-                        if outputs[0] > 0.55:
-                            k.press_key(k.space)
+                    inputs = [obs['distance'], obs['length'], obs['speed']]
+                    outputs = genome.forward(np.array(inputs, dtype=float))
+                    print(outputs[0])
+                    if outputs[0] > 0.55:
+                        k.press_key(k.space)
                 except:
                     break
             genome.fitness = scanner.get_fitness()
