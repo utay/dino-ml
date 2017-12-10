@@ -1,15 +1,10 @@
-from scanner import Scanner
-import pykeyboard
+import generation
 
 def main():
-    scanner = Scanner()
-    scanner.find_game()
-    k = pykeyboard.PyKeyboard()
-    print(scanner.dino_end)
-    while True:
-        obstacle = scanner.find_next_obstacle()
-        if obstacle:
-            k.press_key(k.space)
+    # Execute one Generation
+    # Remove the worst genomes until we have 4
+    # Cross over and random mutations until we got 12 genomes again
+    print("main")
 
 if __name__ == '__main__':
     main()
