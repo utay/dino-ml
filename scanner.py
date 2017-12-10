@@ -54,7 +54,7 @@ class Scanner:
         dist1, t1 = self.__next_obstacle()
         dist = dist0 - dist1
         speed = dist / ((t1 - t0).microseconds * 1000)
-        return Obstacle(dist, 0, speed) if dist > 0 else None
+        return Obstacle(dist1, 0, speed) if dist > 0 else None
 
     def __next_obstacle(self):
         image = screenshot(200, 100, 500, 155)
