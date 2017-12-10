@@ -22,7 +22,6 @@ class Generation:
                     obs = scanner.find_next_obstacle()
                     inputs = [obs['distance'], obs['length'], obs['speed']]
                     outputs = genome.forward(np.array(inputs, dtype=float))
-                    print(outputs[0])
                     if outputs[0] > 0.55:
                         k.press_key(k.space)
                 except:
