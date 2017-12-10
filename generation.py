@@ -6,13 +6,14 @@ import pykeyboard
 
 class Generation:
     def __init__(self):
-        self.genomes = [Network() for i in range(12)]
+        self.__genomes = [Network() for i in range(12)]
+        self.__best_genomes = []
 
     def execute(self):
         k = pykeyboard.PyKeyboard()
         scanner = Scanner()
         scanner.find_game()
-        for genome in self.genomes:
+        for genome in self.__genomes:
             scanner.reset()
             k.press_keys(['Command', 'r'])
             k.release_key('Command')
@@ -28,3 +29,13 @@ class Generation:
                 except:
                     break
             genome.fitness = scanner.get_fitness()
+
+    def keep_best_genomes(self):
+        self.__genomes.sort(key=lambda x: x.fitness, reverse=True)[:4]
+        self.__best_genomes = self.__genomes[:]
+
+    def cross_over(self):
+        print('cross over')
+
+    def mutate(self):
+        print('mutate')
