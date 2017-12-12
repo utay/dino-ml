@@ -50,7 +50,7 @@ class Scanner:
         self.dino_end = end
 
     def find_next_obstacle(self):
-        image = screenshot(200, 100, 500, 155)
+        image = screenshot(210, 100, 500, 155)
         dist = self.__next_obstacle_dist(image)
         if dist < 50 and not self.__change_fitness:
             self.__current_fitness += 1
@@ -62,7 +62,7 @@ class Scanner:
         speed = 0
         if self.last_obstacle:
             delta_dist = self.last_obstacle['distance'] - dist
-            speed = delta_dist / ((time - self.last_obstacle['time']).microseconds * 1000)
+            speed = (delta_dist / ((time - self.last_obstacle['time']).microseconds)) * 10000
         self.last_obstacle = obstacle(dist, 1, speed, time)
         return self.last_obstacle
 

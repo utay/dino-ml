@@ -24,7 +24,7 @@ class Generation:
             while True:
                 try:
                     obs = scanner.find_next_obstacle()
-                    inputs = [obs['distance'], obs['length'], obs['speed']]
+                    inputs = [obs['distance'] / 1000, obs['length'], obs['speed'] / 10]
                     outputs = genome.forward(np.array(inputs, dtype=float))
                     if outputs[0] > 0.55:
                         k.press_key(k.space)

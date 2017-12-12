@@ -10,11 +10,10 @@ class Network:
         self.fitness = 0
 
     def forward(self, inputs):
-        inputs = inputs / np.amax(inputs, axis=0)
         self.z2 = np.dot(inputs, self.W1)
-        self.a2 = self.sigmoid(self.z2)
+        self.a2 = np.tanh(self.z2)
         self.z3 = np.dot(self.a2, self.W2)
-        yHat = self.sigmoid(self.z3)
+        yHat = np.tanh(self.z3)
         return yHat
 
     def sigmoid(self, z):
