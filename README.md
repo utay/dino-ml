@@ -1,6 +1,8 @@
 # Dino Machine Learning
 
-![Dino Ninjaaa](dino.gif)
+<p align="center"> 
+<img src="dino.gif">
+</p>
 
 A simple artificial intelligence to teach Google Chrome's offline dinosaur to jump obstacles, using Neural Networks and a simple Genetic Algorithm. The algorithm are written from scratch without any python ML libraries.
 
