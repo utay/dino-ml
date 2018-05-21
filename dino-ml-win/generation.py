@@ -17,8 +17,8 @@ class Generation:
         scanner.find_game()
         for genome in self.__genomes:
             scanner.reset()
-            k.press_keys(['Command', 'r'])
-            k.release_key('Command')
+            k.press_keys([k.control_l_key, 'r'])
+            k.release_key(k.control_l_key)
             sleep(1)
             k.press_key(k.space)
             while True:
