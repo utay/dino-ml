@@ -1,13 +1,16 @@
 from PIL import Image
+from PIL import ImageGrab
 from datetime import datetime
 import os
 
-dino_color = (83, 83, 83, 255)
+dino_color = (83, 83, 83)
 
 def screenshot(x, y, w, h):
-    os.system("screencapture -R{},{},{},{} tmp.png".format(x, y, w, h))
-    img = Image.open("tmp.png")
-    return img
+    # os.system("screencapture -R{},{},{},{} tmp.png".format(x, y, w, h))
+    img = ImageGrab.grab()
+    img.save("tmp.png")
+    save = Image.open("tmp.png")
+    return save
 
 def is_dino_color(pixel):
     return pixel == dino_color
@@ -35,7 +38,7 @@ class Scanner:
 
         if not pixels:
             raise Exception("Game not found!")
-
+        print("Game found!")
         self.__find_dino(pixels)
 
     def __find_dino(self, pixels):

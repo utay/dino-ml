@@ -15,6 +15,10 @@ Inspired by [https://github.com/ivanseidel/IAMDinosaur](https://github.com/ivans
 * Run the AI: `python ai.py`
 * After 5/8 generations, the dino should be a ninja!
 
+## FAQ
+* Try this first is you have problem installing pyHook: https://stackoverflow.com/questions/48327695/pyhook-for-python-3-6
+* You maybe should install this if you still cannot install pyHook: https://nchc.dl.sourceforge.net/project/pywin32/pywin32/Build%20221/pywin32-221.win-amd64-py3.6.exe
+
 ## TODO
 
 - [ ] Find game automatically in the screen at the beginning
